@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   sync:
-    name: Sync OrcaSlicer
     runs-on: ubuntu-latest
 
     steps:
@@ -18,12 +17,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-          persist-credentials: false
+          fetch-depth: 0
 
-      - name: Sync upstream
-        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.3
-        with:
-          target_sync_branch: main
-          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
-          upstream_sync_repo: OrcaSlicer/OrcaSlicer
-          upstream_sync_branch: main
+      - name: Sync with upstream
+        run: |
+          git remote add upstream https://github.com/OrcaSlicer/OrcaSlicer.git
+          git fetch upstream main
+          git merge --ff-only upstream/main
+          git push origin main
