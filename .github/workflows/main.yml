@@ -1,0 +1,21 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync fork
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3
+        with:
+          upstream_sync_repo: OrcaSlicer/OrcaSlicer
+          upstream_sync_branch: main
+          target_sync_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
